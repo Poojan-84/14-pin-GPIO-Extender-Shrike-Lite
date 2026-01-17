@@ -123,42 +123,13 @@ Each bit is mapped to its own physical GPIO resource in the I/O Planner:
 
 ---
 
-## FPGA Implementation Details
-
-### Key Design Features
-
-1. **Byte Selection Logic:** The FPGA uses a `byte_select` register that toggles on each SPI byte received, allowing proper alternation between high and low bytes during multi-byte reads.
-
-2. **Combinational TX Multiplexer:** The SPI transmit data uses a simple combinational mux rather than complex registered logic:
-   ```verilog
-   assign spi_tx_data = byte_select ? 
-                        i_gpio_pins[7:0] :              // Low byte
-                        {2'b00, i_gpio_pins[13:8]};     // High byte
-   ```
-
-3. **Transaction Reset:** The `byte_select` counter resets to 0 on every CS falling edge, ensuring consistent byte ordering.
-
-4. **Minimal Resource Usage:** The simplified design uses only **36 CLBs** (11.4% of FPGA-1K resources), ensuring reliable synthesis and place-and-route.
-
-### Verilog Style Requirements
-
-The Renesas ForgeFPGA has specific requirements:
-
-- **Top module attribute:** `(* top *)` before the module declaration
-- **Clock buffer inhibit:** `(* iopad_external_pin, clkbuf_inhibit *)` for clock inputs
-- **External pin marking:** `(* iopad_external_pin *)` for all I/O signals
-- **Output enable signals:** Every output requires a corresponding `_oe` signal
-- **No direct INOUT:** Use separate `_IN`, `_OUT`, and `_OE` signals instead
-
----
-
 ## How to Use
 
 ### 1. FPGA Synthesis
 
 1. **Load Files:** Import `top.v` and `spi_target.v` into Renesas Go Configure Software Hub
 2. **I/O Planning:** In the I/O Planner, map each GPIO bit's `IN`, `OUT`, and `OE` signals to the same physical GPIO number (see table above)
-3. **Synthesize:** Run Place & Route - should complete successfully with ~11% resource usage
+3. **Synthesize:** Run Synthesis, and then Generate Bitstream on the ForgeFPGA
 4. **Program:** Load the generated bitstream onto the Shrike Lite board
 
 ### 2. MicroPython Firmware
@@ -219,34 +190,6 @@ shrike-gpio-14/
 
 ---
 
-## Test Results
-
-All tests passed successfully on hardware:
-
-| Test | Description | Result |
-| :--- | :--- | :---: |
-| **Test 0** | SPI Communication Diagnostic | ✅ 5/5 |
-| **Test 1** | Loopback Pairs (7 connections) | ✅ Pass* |
-| **Test 2** | Individual Pin Control | ✅ 14/14 |
-| **Test 3** | Bidirectional Switching | ✅ 8/8 |
-| **Test 4** | Running Lights Pattern | ✅ Pass |
-| **Test 5** | 14-bit Toggle Patterns | ✅ Pass |
-| **Test 6** | Chain Propagation | ✅ Pass |
-
-*Test 1 shows expected behavior with partial wiring
-
----
-
-## Performance Characteristics
-
-- **SPI Clock Speed:** Tested at 1 MHz, stable operation
-- **Pin Toggle Rate:** ~10 kHz (limited by MicroPython overhead)
-- **Read Latency:** ~50 μs for full 14-bit read
-- **Write Latency:** ~40 μs for 2-byte command
-- **FPGA Resource Usage:** 11.4% CLBs, 8.2% LUTs, 5.9% FFs
-
----
-
 ## Troubleshooting
 
 ### Common Issues
@@ -299,6 +242,4 @@ This project is open-source. Feel free to modify and distribute.
 
 ## Author
 
-[Your Name/GitHub Handle]
-
-**Project Repository:** [Your GitHub URL]
+Poojan-84
