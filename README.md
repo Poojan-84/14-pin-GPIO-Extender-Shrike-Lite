@@ -159,35 +159,6 @@ fpga.write_pin(0, 1)  # Set pin 0 HIGH
 state = fpga.read_pin(0)  # Read pin 0
 ```
 
-### 3. Testing
-
-Run the included test suite to verify functionality:
-
-```python
-# Run all automated tests
-run_all_tests()
-
-# Or run individual tests
-test_0_spi_diagnostic()  # No wires needed
-test_3_bidirectional()   # Requires 1 jumper wire
-```
-
----
-
-## Project Structure
-
-```
-shrike-gpio-14/
-├── hdl/
-│   ├── top.v                    # Top-level FPGA module
-│   └── spi_target.v             # SPI slave controller
-├── firmware/
-│   └── fpga_gpio_14bit.py       # MicroPython driver & test suite
-├── docs/
-│   └── pin_mapping.md           # Detailed pin mapping reference
-└── README.md                    # This file
-```
-
 ---
 
 ## Troubleshooting
