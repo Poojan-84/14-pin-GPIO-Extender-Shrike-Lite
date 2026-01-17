@@ -15,7 +15,7 @@ Author: [Your Name]
 """
 
 from machine import Pin, SPI
-import time
+import time 
 
 
 # ==============================================================================
