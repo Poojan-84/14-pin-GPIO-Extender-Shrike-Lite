@@ -203,14 +203,6 @@ This project is open-source. Feel free to modify and distribute.
 
 ---
 
-## Acknowledgments
-
-- **Vicharak** for the Shrike Lite board
-- **Renesas** for the ForgeFPGA tools
-- **Community contributors** for testing and feedback
-
----
-
 ## Author
 
 Poojan-84
