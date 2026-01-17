@@ -4,7 +4,7 @@ module spi_target #(
   parameter WIDTH  = 8,     // Determines the data width of SPI to the input and output data buses
   parameter LSB    = 1'b0   // When one, data starts from LSB, otherwise data starts from MSB 
 ) (
-// common ports
+// common ports 
   input                  i_clk,           // input clock signal
   input                  i_rst_n,         // input negative reset signal
 // control signal
