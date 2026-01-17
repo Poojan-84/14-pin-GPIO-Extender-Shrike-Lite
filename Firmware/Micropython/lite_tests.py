@@ -8,10 +8,8 @@ the FPGA's 14 GPIO pins step-by-step with clear explanations.
 Hardware Setup:
 - Shrike Lite board with FPGA programmed
 - No external connections needed for basic tests
-- Optional: LEDs with 330Ω resistors for visual feedback
 - Optional: Jumper wires for loopback tests
 
-Author: [Your Name]
 """
 
 from machine import Pin, SPI
